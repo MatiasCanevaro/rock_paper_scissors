@@ -3,15 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: 'Caveat', cursive, sans-serif;
+      background-color: #fdf6e3;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #ff5733;
+      text-shadow: 2px 2px #ffe0b5;
+    }
+
+    #score {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      padding: 10px;
+      background: #ffdd99;
+      border: 2px solid #ff5733;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      background-color: #ffcc33;
+      border: 2px solid #ff9933;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #333;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      background-color: #ff9933;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    #result {
+      font-size: 1.2rem;
+      margin: 20px;
+      color: #2a9d8f;
+    }
+
+    #winner {
+      font-size: 2rem;
+      color: #e76f51;
+      margin-top: 20px;
+      text-shadow: 2px 2px #ffe0b5;
+    }
+
+    div {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      button {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+
+      #score {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
   <script src="javascript.js" defer></script>
 </head>
 <body>
-  <h1>Rock Paper Scissors</h1>
+  <h1>Let's Play Rock Paper Scissors!</h1>
   <div id="score">Player 0 - 0 Computer</div>
   <div>
-    <button id="Rock">Rock</button>
-    <button id="Paper">Paper</button>
-    <button id="Scissors">Scissors</button>
+    <button id="Rock">✊ Rock</button>
+    <button id="Paper">✋ Paper</button>
+    <button id="Scissors">✌️ Scissors</button>
   </div>
   <div id="result"></div>
   <h1 id="winner"></h1>
