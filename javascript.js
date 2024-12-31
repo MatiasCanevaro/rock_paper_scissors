@@ -1,85 +1,74 @@
-function playGame(){
-  let player_score = 0
-  let computer_score = 0
-  for(let i=0;i<5;i++){
-    let result = playRound(getPlayerSelection(),getComputerChoice())
-    if(result==0){
-      computer_score++
-    }
-    if(result==1){
-      player_score++
-    }
-    console.log("Player " + player_score + " - " + computer_score + " Computer")
-  }
-  if(player_score>computer_score){
-    console.log("Player Wins!")
-  }
-  if(computer_score>player_score){
-    console.log("Computer Wins!")
-  }
-  if(computer_score==player_score){
-    console.log("It's a Tie!")
-  }
-}
+let playerScore = 0;
+let computerScore = 0;
 
-function playRound(playerSelection,computerSelection){
-  if(playerSelection=="Rock"){
-    if(computerSelection=="Rock"){
-      return logTie(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Paper"){
-      return logLoss(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Scissors"){
-      return logWin(playerSelection,computerSelection)
-    }
+const rules = {
+  Rock: { beats: "Scissors", losesTo: "Paper" },
+  Paper: { beats: "Rock", losesTo: "Scissors" },
+  Scissors: { beats: "Paper", losesTo: "Rock" },
+};
+
+document.querySelectorAll("button").forEach((button) => {
+  button.addEventListener("click", () => {
+    resetWinnerMessage();
+    const computerChoice = getComputerChoice();
+    const playerChoice = button.id;
+    const resultMessage = playRound(playerChoice, computerChoice);
+    updateScoreDisplay();
+    updateResultMessage(resultMessage);
+    checkForWinner();
+  });
+});
+
+function playRound(playerSelection, computerSelection) {
+  if (!rules[playerSelection]) {
+    return "Invalid selection!";
   }
-  if(playerSelection=="Scissors"){
-    if(computerSelection=="Scissors"){
-      return logTie(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Rock"){
-      return logLoss(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Paper"){
-      return logWin(playerSelection,computerSelection)
-    }
+  if (playerSelection === computerSelection) {
+    return `It's a Tie! ${playerSelection} ties with ${computerSelection}`;
   }
-  if(playerSelection=="Paper"){
-    if(computerSelection=="Paper"){
-      return logTie(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Scissors"){
-      return logLoss(playerSelection,computerSelection)
-    }
-    if(computerSelection=="Rock"){
-      return logWin(playerSelection,computerSelection)
-    }
+  if (rules[playerSelection].beats === computerSelection) {
+    playerScore++;
+    return `You Win! ${playerSelection} beats ${computerSelection}`;
+  }
+  else{
+    computerScore++;
+    return `You Lose! ${computerSelection} beats ${playerSelection}`;     
   }
 }
 
-function logLoss(playerSelection,computerSelection){
-  console.log("You Lose! " + computerSelection + " beats " + playerSelection)
-  return 0
+function getComputerChoice() {
+  const options = Object.keys(rules);
+  return options[Math.floor(Math.random() * options.length)];
 }
 
-function logWin(playerSelection,computerSelection){
-  console.log("You Win! " + playerSelection + " beats " + computerSelection)
-  return 1
+function checkForWinner() {
+  if (playerScore >= 5) {
+    updateWinnerMessage("PLAYER HAS WON");
+    resetScores();
+  } else if (computerScore >= 5) {
+    updateWinnerMessage("COMPUTER HAS WON");
+    resetScores();
+  }
 }
 
-function logTie(playerSelection,computerSelection){
-  console.log("It's a Tie! " + playerSelection + " ties with " + computerSelection)
+function updateScoreDisplay() {
+  document.getElementById("score").textContent = `Player ${playerScore} - ${computerScore} Computer`;
 }
 
-function getPlayerSelection(){
-  let selection = prompt("Choose: Rock, Paper or Scissors")
-  return selection[0].toUpperCase() + selection.slice(1).toLowerCase()
+function updateResultMessage(message) {
+  document.getElementById("result").textContent = message;
 }
 
-function getComputerChoice(){
-  var options = ["Rock", "Paper", "Scissors"]
-  return options[Math.floor(Math.random()*options.length)]
+function updateWinnerMessage(message) {
+  document.getElementById("winner").textContent = message;
 }
 
-playGame()
+function resetWinnerMessage() {
+  document.getElementById("winner").textContent = "";
+}
+
+function resetScores() {
+  playerScore = 0;
+  computerScore = 0;
+  updateScoreDisplay();
+}
